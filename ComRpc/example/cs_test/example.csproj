@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputType>Exe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>DIYRpc-example</AssemblyName>
+    <AssemblyName>ComRpc-example</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <RootNamespace>ComRpc_example</RootNamespace>
@@ -55,29 +55,17 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ComRpc\DIYRpc.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ComRpc\example\test\test.ino" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="cs\escape.cs" />
-    <Compile Include="cs\Program.cs" />
-    <Compile Include="cs\rpc_client.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ComRpc\example\test\rpc_server.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ComRpc\escape.cpp" />
+    <Compile Include="src\escape.cs" />
+    <Compile Include="src\Program.cs" />
+    <Compile Include="src\rpc_client.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)$(OutDir)generate.exe -server $(SolutionDir)example\$(SolutionName)\example\test\test.ino &gt; $(SolutionDir)example\$(SolutionName)\example\test\rpc_server.cpp
+    <PreBuildEvent>$(SolutionDir)$(OutDir)generate.exe -server  $(ProjectDir)..\test\test.ino &gt; $(ProjectDir)..\test\rpc_server.cpp
 
-$(SolutionDir)$(OutDir)generate.exe -cs_client $(SolutionDir)example\$(SolutionName)\example\test\test.ino &gt; $(SolutionDir)example\cs\rpc_client.cs</PreBuildEvent>
+$(SolutionDir)$(OutDir)generate.exe -cs_client  $(ProjectDir)..\test\test.ino &gt; $(ProjectDir)src\rpc_client.cs</PreBuildEvent>
   </PropertyGroup>
 </Project>
