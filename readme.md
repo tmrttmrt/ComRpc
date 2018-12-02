@@ -6,7 +6,7 @@ char* is transfered in a custom escaped string.
 
 Usage
 
-A utility convert.exe writen in C# based on Vitaliy Kleban's tiny-rpc https://bitucket.org/sources/tiny-rpc code parses prototype definitions in a cpp file and generates cpp server code and  C# code that provide communication. 
+A utility convert.exe writen in C# based on Vitaliy Kleban's tiny-rpc https://bitbucket.org/sources/tiny-rpc code parses prototype definitions in a cpp file and generates cpp server code and  C# code that provide communication. 
 
 
 cpp code generation command line:
