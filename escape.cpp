@@ -68,7 +68,7 @@ size_t escapeString(const char * str, char * estr){
 				break;
 		}
 	}
-	*estr=0;
+	if(estr) *estr=0;
 	return i;
 }
 

@@ -111,7 +111,7 @@ void loop() {
   }
   Serial.println(line_string);
   if(line_string[0]==':'){ //DIY_rpc
-    Serial.println(rpc_proc_line(line_string.c_str()));
+    Serial.println(rpc_proc_line((char*) line_string.c_str()));
     line_string="";
     return;
   }
