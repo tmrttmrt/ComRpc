@@ -89,8 +89,10 @@ const char* rpc_proc_line( char *line ){
 							convf = "atoi( pc )";
 							break;
 						case "int32_t":
-						case "uint32_t":
-							convf = "atol( pc )";
+                            convf = "atol( pc )";
+                            break;
+                        case "uint32_t":
+                            convf = "atouint32_t( pc )";
 							break;
 						case "char*":
                             convf = "unescapeString(pc)";

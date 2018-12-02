@@ -77,40 +77,26 @@ float testFloat(float par){
   return 10*par;  
 }
 
-String ret;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  ret.reserve(256);
-/*
-  char* c="Hello world!";
-  char h[250];
-  string2hex(c,h,true);
-  Serial.println(c);
-  Serial.println(h);
-  hex2string(h);
-  Serial.println(h);
-  string2hex(c,h,false);
-  Serial.println(h);
-  hex2string(h);
-  Serial.println(h);
-*/  
+
 }
 
 
-
+String line_string;
 
 void loop() {
   
   // put your main code here, to run repeatedly:
-  String line_string=Serial.readStringUntil('\r');
+  line_string=Serial.readStringUntil('\r');
   line_string.trim();
   if(line_string.length()==0){
     return;
   }
   Serial.println(line_string);
-  if(line_string[0]==':'){ //DIY_rpc
+  if(line_string[0]==':'){ //ComRpc
     Serial.println(rpc_proc_line((char*) line_string.c_str()));
     line_string="";
     return;

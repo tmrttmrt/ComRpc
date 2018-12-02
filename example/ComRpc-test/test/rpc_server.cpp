@@ -38,7 +38,6 @@ const char* rpc_proc_line( char *line ){
 
 			char* ret_returnCString = returnCString();
 			response = F(":0,");
-	Serial.println(line);
 			if(response.reserve(response.length()+escapeString(ret_returnCString,NULL)+1)){
 				escapeString(ret_returnCString, (char*)response.c_str()+response.length());
 			} else {
@@ -178,7 +177,7 @@ const char* rpc_proc_line( char *line ){
 			uint32_t par;
 			pc=strtok(NULL,",");
 			if(NULL!=pc)
-				par = atol( pc );
+				par = atouint32_t( pc );
 			else {
 				response=F(":1, param: 'par' missing!");
 				return response.c_str();

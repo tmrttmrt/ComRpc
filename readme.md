@@ -1,8 +1,8 @@
-A lightweight Arduino to C# serial RPC library.
+A lightweight Arduino to C# serial or TCP/IP socket RPC library.
 
 The transfer is not the most efficient, but more lightweight than json.
 Numeric types are transfered in the decimal ASCII representation.
-char* is transfered in a custom escaped string.
+char* is transfered in a custom escaped string format.
 
 Usage
 
