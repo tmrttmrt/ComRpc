@@ -16,7 +16,7 @@
 */
 
 
-#include "DIYRpc.h"
+#include "ComRpc.h"
 
 char *returnCString();
 char *testCString(char *cstring);

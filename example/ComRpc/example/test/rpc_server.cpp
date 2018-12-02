@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "DIYRpc.h"
+#include "ComRpc.h"
 
 String response; // Using WString class for a clever static buffer that can (hopefully) grow only.
 
