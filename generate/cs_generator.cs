@@ -53,25 +53,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO.Ports;
 using System.Text;
+using System.IO;
 
 namespace ComRpc
 {
 	public class RemoteObject
 	{
-		private SerialPort sport;
-		public RemoteObject(SerialPort sport)
-		{
-			this.sport = sport;
-		}
+        private Stream stream;
+
+        public RemoteObject(Stream stream)
+        {
+            this.stream = stream;
+        }
 
         private byte[] ReadLineBytes()
         {
             List<byte> buff = new List<byte>();
-            byte b=(byte) sport.ReadByte();
-            while (b != 13 && b != 10)
+
+            byte b = (byte)stream.ReadByte();
+            while ((b == 13 || b == 10))
+            {
+                b = (byte)stream.ReadByte();
+            }
+            while ((b != 13 && b != 10 ))
             {
                 buff.Add(b);
-                b = (byte)sport.ReadByte();
+                b = (byte)stream.ReadByte();
             }
             return buff.ToArray();
         }
@@ -137,9 +144,8 @@ namespace ComRpc
 			{{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
-                sport.DiscardInBuffer();
-				sport.Write(ob,0,ob.Length);
-				String resp=sport.ReadLine();//Just echo of the sent command
+				stream.Write(ob,0,ob.Length);
+				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			}} 
 			catch (Exception ex)
@@ -152,7 +158,7 @@ namespace ComRpc
 			}}
 			if(ret[1]!=(byte)'0'){{
 				throw new Exception(""DIYRpc: RPC call of method '{0}' returned an error."");"
-                ,d.ProcName);              
+                , d.ProcName);              
 				if (d.ProcType == "void")
 				{
 					code.Append("\n\t\t\t}\n");

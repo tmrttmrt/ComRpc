@@ -22,6 +22,8 @@ using System.Linq;
 using System.Text;
 using ComRpc;
 using System.IO.Ports;
+using System.Net;
+using System.Net.Sockets;
 
 
 namespace ComRpc_example
@@ -45,7 +47,7 @@ namespace ComRpc_example
             }
 
 
-            SerialPort sp = new SerialPort(args[0], 115200, Parity.None, 8, StopBits.One);
+/*            SerialPort sp = new SerialPort(args[0], 115200, Parity.None, 8, StopBits.One);
             sp.Handshake = Handshake.None;
             try
             {
@@ -57,8 +59,22 @@ namespace ComRpc_example
                 Console.WriteLine(ex.ToString());
                 return;
             }
+ */
+            TcpClient clientSocket = new System.Net.Sockets.TcpClient();
+            try
+            {
+                clientSocket.Connect(args[0], 2222);
+                Console.WriteLine(String.Format("Client Socket Program - Server ({0}) Connected ...",args[0]));
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.ToString());
+                return;
+            }
+            NetworkStream serverStream = clientSocket.GetStream();
 
-            RemoteObject ro = new RemoteObject(sp);
+
+            RemoteObject ro = new RemoteObject(serverStream);
 
             string rs = System.Text.Encoding.ASCII.GetString(ro.returnCString());
             Console.WriteLine("In: void: ");
@@ -87,6 +103,8 @@ namespace ComRpc_example
             Console.WriteLine("Int32: '" + i32.ToString() + " -> " + ro.testInt32(i32).ToString() + "'");
             UInt32 ui32 = (UInt32)(UInt16.MaxValue * rnd.Next(0, UInt16.MaxValue));
             Console.WriteLine("UInt32: '" + ui32.ToString() + " -> " + ro.testUInt32(ui32).ToString() + "'");
+            serverStream.Close();
+            clientSocket.Close();
             Console.Write("Press a key to exit.");
             Console.ReadKey();
         }

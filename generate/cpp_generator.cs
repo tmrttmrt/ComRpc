@@ -32,6 +32,9 @@ namespace ComRpc
 			code.Append(
 @"#include <Arduino.h>
 #include ""ComRpc.h""
+#if defined(ESP8266)
+#include ""dtostrg.h""
+#endif 
 
 String response; // Using WString class for a clever static buffer that can (hopefully) grow only.
 
@@ -40,7 +43,7 @@ String response; // Using WString class for a clever static buffer that can (hop
 			code.Append(externs);
 			code.Append(
 @"
-char* rpc_proc_line( char *line ){
+const char* rpc_proc_line( char *line ){
 	
 	if(!response.reserve(RET_BUFF_SIZE)){ //To prevent heap fragmentation we should reserve large enough buffer on the first call. 
 		response=F("":1,Out of memory!"");
@@ -86,15 +89,17 @@ char* rpc_proc_line( char *line ){
 							convf = "atoi( pc )";
 							break;
 						case "int32_t":
-						case "uint32_t":
-							convf = "atol( pc )";
+                            convf = "atol( pc )";
+                            break;
+                        case "uint32_t":
+                            convf = "atouint32_t( pc )";
 							break;
 						case "char*":
                             convf = "unescapeString(pc)";
 							break;
 					}
 					code.AppendFormat(
-@"			pc=strtok(NULL,',');
+@"			pc=strtok(NULL,"","");
 			if(NULL!=pc)
 				{0} = {1};
 			else {{
@@ -123,7 +128,7 @@ char* rpc_proc_line( char *line ){
 			char* ret_{1} = {1}({2});
 			response = F("":0,"");
 			if(response.reserve(response.length()+escapeString(ret_{1},NULL)+1)){{
-				escapeString(ret_{1}, response.c_str()+response.length());
+				escapeString(ret_{1}, (char*)response.c_str()+response.length());
 			}} else {{
 				response = F("":1,Out of memory during call to '{1}'"");
 			}}"
@@ -133,7 +138,7 @@ char* rpc_proc_line( char *line ){
 					{
 						code.AppendFormat(
 @"            response = F("":0,"");
-			dtostre({1}( {2} ), response.c_str()+response.length(),DBL_PREC,0);"
+			dtostre({1}( {2} ),(char*)response.c_str()+response.length(),DBL_PREC,0);"
 						, d.ProcType, d.ProcName, parameters);
 					}
 					else

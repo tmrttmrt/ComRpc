@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include "ComRpc.h"
+#if defined(ESP8266)
+#include "dtostrg.h"
+#endif 
 
 String response; // Using WString class for a clever static buffer that can (hopefully) grow only.
 
@@ -15,7 +18,7 @@ extern uint16_t testUInt16(uint16_t par);
 extern uint32_t testUInt32(uint32_t par);
 extern void testVoid();
 
-char* rpc_proc_line( char *line ){
+const char* rpc_proc_line( char *line ){
 	
 	if(!response.reserve(RET_BUFF_SIZE)){ //To prevent heap fragmentation we should reserve large enough buffer on the first call. 
 		response=F(":1,Out of memory!");
@@ -36,7 +39,7 @@ char* rpc_proc_line( char *line ){
 			char* ret_returnCString = returnCString();
 			response = F(":0,");
 			if(response.reserve(response.length()+escapeString(ret_returnCString,NULL)+1)){
-				escapeString(ret_returnCString, response.c_str()+response.length());
+				escapeString(ret_returnCString, (char*)response.c_str()+response.length());
 			} else {
 				response = F(":1,Out of memory during call to 'returnCString'");
 			}
@@ -46,7 +49,7 @@ char* rpc_proc_line( char *line ){
 		case 1:	// char* testCString(...) 
 		{
 			char* cstring;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				cstring = unescapeString(pc);
 			else {
@@ -57,7 +60,7 @@ char* rpc_proc_line( char *line ){
 			char* ret_testCString = testCString(cstring);
 			response = F(":0,");
 			if(response.reserve(response.length()+escapeString(ret_testCString,NULL)+1)){
-				escapeString(ret_testCString, response.c_str()+response.length());
+				escapeString(ret_testCString, (char*)response.c_str()+response.length());
 			} else {
 				response = F(":1,Out of memory during call to 'testCString'");
 			}
@@ -67,7 +70,7 @@ char* rpc_proc_line( char *line ){
 		case 2:	// double testDouble(...) 
 		{
 			double par;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				par = atof( pc );
 			else {
@@ -75,14 +78,14 @@ char* rpc_proc_line( char *line ){
 				return response.c_str();
 			}
             response = F(":0,");
-			dtostre(testDouble( par ), response.c_str()+response.length(),DBL_PREC,0);
+			dtostre(testDouble( par ),(char*)response.c_str()+response.length(),DBL_PREC,0);
 			return response.c_str();
 			break;
 		}       
 		case 3:	// float testFloat(...) 
 		{
 			float par;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				par = atof( pc );
 			else {
@@ -90,14 +93,14 @@ char* rpc_proc_line( char *line ){
 				return response.c_str();
 			}
             response = F(":0,");
-			dtostre(testFloat( par ), response.c_str()+response.length(),DBL_PREC,0);
+			dtostre(testFloat( par ),(char*)response.c_str()+response.length(),DBL_PREC,0);
 			return response.c_str();
 			break;
 		}       
 		case 4:	// int8_t testChar(...) 
 		{
 			int8_t cin;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				cin = atoi( pc );
 			else {
@@ -112,7 +115,7 @@ char* rpc_proc_line( char *line ){
 		case 5:	// int16_t testInt16(...) 
 		{
 			int16_t par;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				par = atoi( pc );
 			else {
@@ -127,7 +130,7 @@ char* rpc_proc_line( char *line ){
 		case 6:	// int32_t testInt32(...) 
 		{
 			int32_t par;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				par = atol( pc );
 			else {
@@ -142,7 +145,7 @@ char* rpc_proc_line( char *line ){
 		case 7:	// uint8_t testUChar(...) 
 		{
 			uint8_t cin;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				cin = atoi( pc );
 			else {
@@ -157,7 +160,7 @@ char* rpc_proc_line( char *line ){
 		case 8:	// uint16_t testUInt16(...) 
 		{
 			uint16_t par;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
 				par = atoi( pc );
 			else {
@@ -172,9 +175,9 @@ char* rpc_proc_line( char *line ){
 		case 9:	// uint32_t testUInt32(...) 
 		{
 			uint32_t par;
-			pc=strtok(NULL,',');
+			pc=strtok(NULL,",");
 			if(NULL!=pc)
-				par = atol( pc );
+				par = atouint32_t( pc );
 			else {
 				response=F(":1, param: 'par' missing!");
 				return response.c_str();
