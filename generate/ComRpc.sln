@@ -3,12 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "generate", "generate.csproj", "{30D97A0F-BBE5-4C5E-8F83-46E400A9FB65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM-example", "..\example\ComRpc-test\cs_test\COM-example.csproj", "{D6F84A89-A0CE-4774-BD62-844E73574ECF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPIP-example", "..\example\TCP-IP-Rpc\cs-TCPIP-socket\TCPIP-example.csproj", "{E10AB3C3-B893-4830-B2DE-5DCA506028C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPIP-example", "..\example\HttpRpc\cs-TCPIP-socket\TCPIP-example.csproj", "{E10AB3C3-B893-4830-B2DE-5DCA506028C8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{30D97A0F-BBE5-4C5E-8F83-46E400A9FB65} = {30D97A0F-BBE5-4C5E-8F83-46E400A9FB65}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COM-example", "..\example\ComRpc-test\cs_test\COM-example.csproj", "{D6F84A89-A0CE-4774-BD62-844E73574ECF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,14 +23,6 @@ Global
 		{30D97A0F-BBE5-4C5E-8F83-46E400A9FB65}.Release|Any CPU.Build.0 = Release|x86
 		{30D97A0F-BBE5-4C5E-8F83-46E400A9FB65}.Release|x86.ActiveCfg = Release|x86
 		{30D97A0F-BBE5-4C5E-8F83-46E400A9FB65}.Release|x86.Build.0 = Release|x86
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|x86.ActiveCfg = Debug|x86
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|x86.Build.0 = Debug|x86
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|x86.ActiveCfg = Release|x86
-		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|x86.Build.0 = Release|x86
 		{E10AB3C3-B893-4830-B2DE-5DCA506028C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E10AB3C3-B893-4830-B2DE-5DCA506028C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E10AB3C3-B893-4830-B2DE-5DCA506028C8}.Debug|x86.ActiveCfg = Debug|x86
@@ -42,6 +31,14 @@ Global
 		{E10AB3C3-B893-4830-B2DE-5DCA506028C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E10AB3C3-B893-4830-B2DE-5DCA506028C8}.Release|x86.ActiveCfg = Release|x86
 		{E10AB3C3-B893-4830-B2DE-5DCA506028C8}.Release|x86.Build.0 = Release|x86
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|x86.ActiveCfg = Debug|x86
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Debug|x86.Build.0 = Debug|x86
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|x86.ActiveCfg = Release|x86
+		{D6F84A89-A0CE-4774-BD62-844E73574ECF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
