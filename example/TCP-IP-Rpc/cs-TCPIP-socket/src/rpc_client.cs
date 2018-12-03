@@ -7,32 +7,8 @@ using System.IO;
 
 namespace ComRpc
 {
-	public class RemoteObject
+	partial class RemoteObject
 	{
-        private Stream stream;
-
-        public RemoteObject(Stream stream)
-        {
-            this.stream = stream;
-        }
-
-        private byte[] ReadLineBytes()
-        {
-            List<byte> buff = new List<byte>();
-
-            byte b = (byte)stream.ReadByte();
-            while ((b == 13 || b == 10))
-            {
-                b = (byte)stream.ReadByte();
-            }
-            while ((b != 13 && b != 10 ))
-            {
-                buff.Add(b);
-                b = (byte)stream.ReadByte();
-            }
-            return buff.ToArray();
-        }
-
 		public byte [] returnCString(  ) {
             List<byte> buff = new List<byte>();
 
@@ -42,20 +18,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'returnCString'.");
+				throw new Exception("ComRpc: communication error in method 'returnCString'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'returnCString'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'returnCString'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'returnCString' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'returnCString' returned an error.");
 			} else {
               
                 ret=ret.SkipWhile(b => b != ',').Skip(1).ToArray();
@@ -73,20 +51,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testCString'.");
+				throw new Exception("ComRpc: communication error in method 'testCString'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testCString'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testCString'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testCString' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testCString' returned an error.");
 			} else {
               
                 ret=ret.SkipWhile(b => b != ',').Skip(1).ToArray();
@@ -104,20 +84,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testDouble'.");
+				throw new Exception("ComRpc: communication error in method 'testDouble'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testDouble'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testDouble'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testDouble' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testDouble' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -135,20 +117,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testFloat'.");
+				throw new Exception("ComRpc: communication error in method 'testFloat'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testFloat'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testFloat'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testFloat' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testFloat' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -166,20 +150,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testChar'.");
+				throw new Exception("ComRpc: communication error in method 'testChar'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testChar'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testChar'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testChar' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testChar' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -197,20 +183,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testInt16'.");
+				throw new Exception("ComRpc: communication error in method 'testInt16'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testInt16'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testInt16'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testInt16' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testInt16' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -228,20 +216,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testInt32'.");
+				throw new Exception("ComRpc: communication error in method 'testInt32'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testInt32'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testInt32'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testInt32' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testInt32' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -259,20 +249,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testUChar'.");
+				throw new Exception("ComRpc: communication error in method 'testUChar'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testUChar'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testUChar'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testUChar' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testUChar' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -290,20 +282,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testUInt16'.");
+				throw new Exception("ComRpc: communication error in method 'testUInt16'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testUInt16'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testUInt16'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testUInt16' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testUInt16' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -321,20 +315,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testUInt32'.");
+				throw new Exception("ComRpc: communication error in method 'testUInt32'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testUInt32'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testUInt32'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testUInt32' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testUInt32' returned an error.");
 			} else {
 
                 string rets=ASCIIEncoding.ASCII.GetString(ret.SkipWhile(b => b != ',').Skip(1).ToArray());
@@ -351,20 +347,22 @@ namespace ComRpc
 			{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			} 
 			catch (Exception ex)
 			{
-				throw new Exception("DIYRpc: communication error in method 'testVoid'.");
+				throw new Exception("ComRpc: communication error in method 'testVoid'.");
 			} 
 			if (ret[0] != (byte)':')
 			{
-				throw new Exception("DIYRpc: invalid RPC response in method 'testVoid'.");
+				throw new Exception("ComRpc: invalid RPC response in method 'testVoid'.");
 			}
 			if(ret[1]!=(byte)'0'){
-				throw new Exception("DIYRpc: RPC call of method 'testVoid' returned an error.");
+				throw new Exception("ComRpc: RPC call of method 'testVoid' returned an error.");
 			}
 		}
 	}

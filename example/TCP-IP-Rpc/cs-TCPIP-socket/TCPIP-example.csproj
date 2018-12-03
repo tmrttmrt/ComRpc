@@ -52,10 +52,12 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\RemoteObject.cs" />
     <Compile Include="src\escape.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="src\rpc_client.cs" />
