@@ -57,32 +57,8 @@ using System.IO;
 
 namespace ComRpc
 {
-	public class RemoteObject
-	{
-        private Stream stream;
-
-        public RemoteObject(Stream stream)
-        {
-            this.stream = stream;
-        }
-
-        private byte[] ReadLineBytes()
-        {
-            List<byte> buff = new List<byte>();
-
-            byte b = (byte)stream.ReadByte();
-            while ((b == 13 || b == 10))
-            {
-                b = (byte)stream.ReadByte();
-            }
-            while ((b != 13 && b != 10 ))
-            {
-                buff.Add(b);
-                b = (byte)stream.ReadByte();
-            }
-            return buff.ToArray();
-        }
-"
+	partial class RemoteObject
+	{"
             );
 
 			// Create function  code
@@ -144,20 +120,22 @@ namespace ComRpc
 			{{
                 buff.Add((byte)'\n');
                 byte [] ob=buff.ToArray();
+                FlushInputBuffer();
 				stream.Write(ob,0,ob.Length);
+                stream.Flush();
 				String resp=Encoding.Default.GetString( ReadLineBytes());//Just echo of the sent command
 				ret=ReadLineBytes();
 			}} 
 			catch (Exception ex)
 			{{
-				throw new Exception(""DIYRpc: communication error in method '{0}'."");
+				throw new Exception(""ComRpc: communication error in method '{0}'."");
 			}} 
 			if (ret[0] != (byte)':')
 			{{
-				throw new Exception(""DIYRpc: invalid RPC response in method '{0}'."");
+				throw new Exception(""ComRpc: invalid RPC response in method '{0}'."");
 			}}
 			if(ret[1]!=(byte)'0'){{
-				throw new Exception(""DIYRpc: RPC call of method '{0}' returned an error."");"
+				throw new Exception(""ComRpc: RPC call of method '{0}' returned an error."");"
                 , d.ProcName);              
 				if (d.ProcType == "void")
 				{
