@@ -58,7 +58,7 @@ namespace ComRpc_example
                 return;
             }
 
-            RemoteObject ro = new RemoteObject(sp.BaseStream);
+            RemoteObject ro = new RemoteObject(sp.BaseStream,10);
 
             string rs = System.Text.Encoding.ASCII.GetString(ro.returnCString());
             Console.WriteLine("In: void: ");

@@ -18,10 +18,12 @@ namespace ComRpc
         List<byte> cLine=new List<byte>();
         byte[] buffer = new byte[buff_size];
         bool isWaiting = false;
+        Int64 timeout = 10 * TimeSpan.TicksPerMillisecond * 1000;
 
-        public RemoteObject(Stream stream)
+        public RemoteObject(Stream stream, int timeout)
         {
             this.stream = stream;
+            this.timeout = timeout * TimeSpan.TicksPerMillisecond * 1000;
         }
         
         public void BytesReceived(IAsyncResult ar)
@@ -57,8 +59,10 @@ namespace ComRpc
         
         private byte[] ReadLineBytes()
         {
+            Int64 t0 = DateTime.Now.Ticks;
             while (0 == lines.Count)
             {
+                if (DateTime.Now.Ticks - t0 > timeout) throw new Exception(this.GetType().ToString() + "::ReadLineBytes:timeout");
                 if (!isWaiting)
                 {
                     isWaiting = true;
